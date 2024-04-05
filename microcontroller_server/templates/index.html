@@ -1,0 +1,13 @@
+{% extends 'base.html' %} {% load static %}
+{% block title %}Inicio{% endblock %}
+
+{% block header %}Agendando alimentación de Gatos{% endblock %}
+
+{% block content %}
+<div class="container text-center">
+    <div class="row">
+        <h2>Last Query made by the microcontroller: {{ last_microcontroller_query.fecha_y_hora|date:"H:i:s" }}</h2>
+        <h2>Next Query: {{ minutes }}m {{ seconds|slice:":2" }}s</h2>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,114 @@
+{% extends 'base.html' %} {% load static %}
+
+
+    {% block title %}Edit Command{% endblock %}
+
+    {% block header %}
+    {% if comando.accion == "action_1" %}
+    Action 1
+    {% elif comando.accion == "action_2" %}
+    Action 2
+    {% endif %}
+     - {{ comando.fecha_y_hora }}
+    {% endblock %}
+
+{% block content %}
+
+    {% if form %}
+    
+        <div class="container text-center">
+            <div class="row">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" name="submit_value" value="update">Save</button>
+                </form>
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" name="submit_value" value="delete"><b>Delete</b></button>
+                </form>
+            </div>
+        </div>
+
+    {% else %}
+    <h2>Comandos sin ejecutar</h2>
+    <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Comando</th>
+            <th>Fecha</th>
+            <th>Estado</th>
+            <th>Eliminar</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for cmd in comandos_no_ejecutados %}
+                <tr>
+                    <td>{{ cmd.id }}</td>
+                    <td>
+                        {% if cmd.accion == "action_1" %}
+                        Action 1
+                        {% elif cmd.accion == "action_2" %}
+                        Action 2
+                        {% endif %}
+                    </td>
+                    <td>{{ cmd.fecha_y_hora }}</td>
+                    <td>
+                        {% if cmd.ejecutado == True %}
+                        Executed
+                        {% elif cmd.ejecutado == False %}
+                        Not Excecuted
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'editar-comando' cmd_id=cmd.id %}" class="button">Edit</a>
+                    </td>
+                    
+                </tr>
+            {% empty %}
+            <h2>No registers yet</h2>
+            {% endfor %}
+        </tbody>
+      </table>
+      <br>
+    <h2>Executed Commands</h2>
+    <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Comando</th>
+            <th>Fecha</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for cmd in comandos_ejecutados %}
+                <tr>
+                    <td>{{ cmd.id }}</td>
+                    <td>
+                        {% if cmd.accion == "action_1" %}
+                        Action 1
+                        {% elif cmd.accion == "action_2" %}
+                        Action 2
+                        {% endif %}
+                    </td>
+                    <td>{{ cmd.fecha_y_hora }}</td>
+                    <td>
+                        {% if cmd.ejecutado == True %}
+                        Executed
+                        {% elif cmd.ejecutado == False %}
+                        Not Executed
+                        {% endif %}
+                    </td>
+                    
+                </tr>
+            {% empty %}
+            <h2>No registers yet</h2>
+            {% endfor %}
+        </tbody>
+      </table>
+    
+    {% endif %}
+    
+{% endblock %}
